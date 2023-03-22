@@ -3,6 +3,7 @@ import React from "react";
 import { sample } from "../../utils";
 import { WORDS } from "../../data";
 import GuessForm from "../GuessForm/GuessForm";
+import Guess from "../Guess/";
 
 // Pick a random word on every pageload.
 const answer = sample(WORDS);
@@ -29,9 +30,7 @@ function Game() {
     <>
       <div className="guess-results">
         {guesses.map(({ label, id }) => (
-          <p className="guess" key={id}>
-            {label}
-          </p>
+          <Guess key={id} label={label} />
         ))}
       </div>
 
