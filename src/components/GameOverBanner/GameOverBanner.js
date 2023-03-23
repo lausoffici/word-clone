@@ -1,11 +1,11 @@
 import React from "react";
 
-function GameOverBanner({ isWinner, answer }) {
+function GameOverBanner({ isWinner, answer, guessList }) {
   return isWinner ? (
     <div className="happy banner">
       <p>
         <strong>Congratulations!</strong> Got it in
-        <strong>3 guesses</strong>.
+        <strong> {guessList.length} guesses</strong>.
       </p>
     </div>
   ) : (

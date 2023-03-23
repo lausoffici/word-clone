@@ -5,6 +5,8 @@ import { WORDS } from "../../data";
 import GuessForm from "../GuessForm/GuessForm";
 import GuessResults from "../GuessResults";
 import GameOverBanner from "../GameOverBanner/GameOverBanner";
+import { NUM_OF_GUESSES_ALLOWED } from "../../constants";
+import Keyboard from "../Keyboard/Keyboard";
 
 // Pick a random word on every pageload.
 const answer = sample(WORDS);
@@ -31,7 +33,7 @@ function Game() {
   );
 
   const isGameOver = React.useMemo(
-    () => guessList.length === 6 || isWinner,
+    () => guessList.length === NUM_OF_GUESSES_ALLOWED || isWinner,
     [guessList.length, isWinner]
   );
 
@@ -44,7 +46,14 @@ function Game() {
         handleSubmit={handleSubmit}
         isGameOver={isGameOver}
       />
-      {isGameOver && <GameOverBanner isWinner={isWinner} answer={answer} />}
+      <Keyboard guessList={guessList} answer={answer} />
+      {isGameOver && (
+        <GameOverBanner
+          isWinner={isWinner}
+          answer={answer}
+          guessList={guessList}
+        />
+      )}
     </>
   );
 }
