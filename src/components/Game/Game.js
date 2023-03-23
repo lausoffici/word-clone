@@ -28,7 +28,7 @@ function Game() {
 
   return (
     <>
-      <GuessResults guessList={guessList} />
+      <GuessResults guessList={guessList} answer={answer} />
       <GuessForm
         guess={guess}
         onGuessChange={handleGuessChange}

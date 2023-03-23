@@ -1,4 +1,5 @@
 import React from "react";
+import { GUESS_LENGTH } from "../../constants";
 
 function GuessForm({ guess, onGuessChange, handleSubmit }) {
   return (
@@ -10,6 +11,7 @@ function GuessForm({ guess, onGuessChange, handleSubmit }) {
         value={guess}
         onChange={onGuessChange}
         pattern="\w{5,5}"
+        maxLength={GUESS_LENGTH}
       />
     </form>
   );
