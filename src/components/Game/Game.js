@@ -4,6 +4,7 @@ import { sample } from "../../utils";
 import { WORDS } from "../../data";
 import GuessForm from "../GuessForm/GuessForm";
 import GuessResults from "../GuessResults";
+import GameOverBanner from "../GameOverBanner/GameOverBanner";
 
 // Pick a random word on every pageload.
 const answer = sample(WORDS);
@@ -16,15 +17,23 @@ function Game() {
 
   function handleSubmit(event) {
     event.preventDefault();
-    const newGuess = { label: guess, id: Math.random() };
-    setGuessList([...guessList, newGuess]);
+    setGuessList([...guessList, { label: guess, id: Math.random() }]);
     setGuess("");
-    console.log({ newGuess });
   }
 
   function handleGuessChange(event) {
     setGuess(event.target.value.toUpperCase());
   }
+
+  const isWinner = React.useMemo(
+    () => guessList.some((guess) => guess.label === answer),
+    [guessList]
+  );
+
+  const isGameOver = React.useMemo(
+    () => guessList.length === 6 || isWinner,
+    [guessList.length, isWinner]
+  );
 
   return (
     <>
@@ -33,7 +42,9 @@ function Game() {
         guess={guess}
         onGuessChange={handleGuessChange}
         handleSubmit={handleSubmit}
+        isGameOver={isGameOver}
       />
+      {isGameOver && <GameOverBanner isWinner={isWinner} answer={answer} />}
     </>
   );
 }
