@@ -176,6 +176,10 @@ h1 {
   will-change: transform;
 }
 
+.banner > p {
+  margin-bottom: 8px;
+}
+
 .happy.banner {
   background: var(--color-success);
   color: white;
@@ -267,4 +271,14 @@ h1 {
 .key.misplaced {
   background: var(--color-warning);
   color: white;
+}
+
+button.restart {
+  border: 1px solid white;
+
+  border-radius: 4px;
+  padding: 5px 10px;
+
+  font-weight: 600;
+  cursor: pointer;
 }

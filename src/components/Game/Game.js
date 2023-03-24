@@ -8,14 +8,15 @@ import GameOverBanner from "../GameOverBanner/GameOverBanner";
 import { NUM_OF_GUESSES_ALLOWED } from "../../constants";
 import Keyboard from "../Keyboard/Keyboard";
 
-// Pick a random word on every pageload.
-const answer = sample(WORDS);
-// To make debugging easier, we'll log the solution in the console.
-console.info({ answer });
+const INITIAL_ANSWER = sample(WORDS);
 
 function Game() {
   const [guess, setGuess] = React.useState("");
   const [guessList, setGuessList] = React.useState([]);
+  const [answer, setAnswer] = React.useState(() => {
+    console.log({ answer: INITIAL_ANSWER });
+    return INITIAL_ANSWER;
+  });
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -27,9 +28,19 @@ function Game() {
     setGuess(event.target.value.toUpperCase());
   }
 
+  function handleRestart() {
+    setGuess("");
+    setGuessList([]);
+    const nextAnswer = sample(WORDS);
+    setAnswer(nextAnswer);
+
+    console.clear();
+    console.log({ answer: nextAnswer });
+  }
+
   const isWinner = React.useMemo(
     () => guessList.some((guess) => guess.label === answer),
-    [guessList]
+    [answer, guessList]
   );
 
   const isGameOver = React.useMemo(
@@ -52,6 +63,7 @@ function Game() {
           isWinner={isWinner}
           answer={answer}
           guessList={guessList}
+          restart={handleRestart}
         />
       )}
     </>
