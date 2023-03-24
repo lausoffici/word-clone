@@ -1,41 +1,26 @@
 import React from "react";
 
+import { NUM_OF_GUESSES_ALLOWED } from "../../constants";
 import { sample } from "../../utils";
 import { WORDS } from "../../data";
-import GuessForm from "../GuessForm/GuessForm";
-import GuessResults from "../GuessResults";
-import GameOverBanner from "../GameOverBanner/GameOverBanner";
-import { NUM_OF_GUESSES_ALLOWED } from "../../constants";
-import Keyboard from "../Keyboard/Keyboard";
 
-const INITIAL_ANSWER = sample(WORDS);
+import GuessForm from "../GuessForm";
+import GuessResults from "../GuessResults";
+import GameOverBanner from "../GameOverBanner";
+import Keyboard from "../Keyboard";
 
 function Game() {
-  const [guess, setGuess] = React.useState("");
   const [guessList, setGuessList] = React.useState([]);
-  const [answer, setAnswer] = React.useState(() => {
-    console.log({ answer: INITIAL_ANSWER });
-    return INITIAL_ANSWER;
-  });
+  const [answer, setAnswer] = React.useState(() => sample(WORDS));
 
-  function handleSubmit(event) {
-    event.preventDefault();
-    setGuessList([...guessList, { label: guess, id: Math.random() }]);
-    setGuess("");
-  }
-
-  function handleGuessChange(event) {
-    setGuess(event.target.value.toUpperCase());
+  function handleSubmitGuess(guess) {
+    const newGuess = { label: guess, id: Math.random() };
+    setGuessList([...guessList, newGuess]);
   }
 
   function handleRestart() {
-    setGuess("");
     setGuessList([]);
-    const nextAnswer = sample(WORDS);
-    setAnswer(nextAnswer);
-
-    console.clear();
-    console.log({ answer: nextAnswer });
+    setAnswer(sample(WORDS));
   }
 
   const isWinner = React.useMemo(
@@ -52,9 +37,7 @@ function Game() {
     <>
       <GuessResults guessList={guessList} answer={answer} />
       <GuessForm
-        guess={guess}
-        onGuessChange={handleGuessChange}
-        handleSubmit={handleSubmit}
+        handleSubmitGuess={handleSubmitGuess}
         isGameOver={isGameOver}
       />
       <Keyboard guessList={guessList} answer={answer} />

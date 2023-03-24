@@ -3,21 +3,22 @@ import { GUESS_LENGTH } from "../../constants";
 import { range } from "../../utils";
 import { checkGuess } from "../../game-helpers";
 
-function Guess({ label = "", answer }) {
-  const checkedGuess = React.useMemo(
-    () => checkGuess(label, answer),
-    [label, answer]
-  );
+function Cell({ letter, status }) {
+  const className = status ? `cell ${status}` : "cell";
+  return <span className={className}>{letter}</span>;
+}
+
+function Guess({ value, answer }) {
+  const result = checkGuess(value, answer);
 
   return (
     <p className="guess">
-      {range(GUESS_LENGTH).map((_, colIndex) => (
-        <span
-          key={colIndex}
-          className={`cell ${checkedGuess?.[colIndex]?.status || ""}`}
-        >
-          {label?.[colIndex] || ""}
-        </span>
+      {range(GUESS_LENGTH).map((num) => (
+        <Cell
+          key={num}
+          letter={result ? result[num].letter : undefined}
+          status={result ? result[num].status : undefined}
+        />
       ))}
     </p>
   );

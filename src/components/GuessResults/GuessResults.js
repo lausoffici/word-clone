@@ -6,12 +6,8 @@ import { range } from "../../utils";
 function GuessResults({ guessList, answer }) {
   return (
     <div className="guess-results">
-      {range(NUM_OF_GUESSES_ALLOWED).map((_, rowIndex) => (
-        <Guess
-          key={rowIndex}
-          label={guessList[rowIndex]?.label}
-          answer={answer}
-        />
+      {range(NUM_OF_GUESSES_ALLOWED).map((num) => (
+        <Guess key={num} value={guessList[num]?.label} answer={answer} />
       ))}
     </div>
   );
